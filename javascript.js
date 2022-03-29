@@ -29,16 +29,16 @@ const multiply = function(...args){
     return +sum;
 }
 const operate = (a, b, operator) => {
-    if (operator === '+'){
+    if (operator === 'add'){
         return add(a,b);
     }
-    else if (operator === '-'){
+    else if (operator === 'subtract'){
         return subtract(a,b);
     }
-    else if (operator === '*'){
+    else if (operator === 'multiply'){
         return multiply(a,b);
     }
-    else if (operator === '/'){
+    else if (operator === 'divide'){
         return divide(a,b);
     }
 }
