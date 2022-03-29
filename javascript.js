@@ -14,10 +14,20 @@ const subtract = function(...args) {
     return +sum;
   };
 
-const divide = (a,...args) => +a / +args;
-
-const multiply = (a,...args) => +a * +args;
-
+const divide = function(...args){
+    let sum = arguments[0];
+    for (let i = 1; i < arguments.length;i++){
+        sum /= +arguments[i];
+    }
+    return +sum;
+}
+const multiply = function(...args){
+    let sum = arguments[0];
+    for (let i = 1; i < arguments.length;i++){
+        sum *= +arguments[i];
+    }
+    return +sum;
+}
 const operate = (a, b, operator) => {
     if (operator === '+'){
         return add(a,b);
