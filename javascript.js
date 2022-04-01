@@ -1,4 +1,16 @@
 const clearButton = document.querySelector('button.clear');
+const numberButtons = document.querySelectorAll('div.numbers div button');
+
+
+function clickNumbers(e){   //Test function to grab text from number button
+    let number = +this.textContent;
+    console.log(e);
+}
+for(i=0; i<numberButtons.length;i++){  //add event listeners to all number buttons
+    numberButtons[i].addEventListener('click',clickNumbers)
+}
+
+
 const add = function(...args) {
     let sum = 0;
     for (let i = 0; i < arguments.length;i++){
