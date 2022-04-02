@@ -1,13 +1,12 @@
 const clearButton = document.querySelector('button.clear');
 const numberButtons = document.querySelectorAll('div.numbers div button');
+const currentDisplay = document.getElementById('display');
+let number = '';
 
 
 function clickNumbers(e){   //Test function to grab text from number button
-    let number = +this.textContent;
-    console.log(e);
-}
-for(i=0; i<numberButtons.length;i++){  //add event listeners to all number buttons
-    numberButtons[i].addEventListener('click',clickNumbers)
+    number += this.textContent;
+    currentDisplay.value = number;
 }
 
 
@@ -17,7 +16,7 @@ const add = function(...args) {
         sum+= +arguments[i];
     }
     return +sum;
-  };
+};
 
 const subtract = function(...args) {
     let sum = arguments[0];
@@ -25,7 +24,7 @@ const subtract = function(...args) {
         sum-= +arguments[i];
     }
     return +sum;
-  };
+};
 
 const divide = function(...args){
     let sum = arguments[0];
@@ -56,11 +55,18 @@ const operate = (a, b, operator) => {
     }
 }
 
-
+function populateDisplay(e){
+    number += this.textContent;
+    currentDisplay.value = number;
+}
 
 const clearDisplay = () => {
-    const currentDisplay = document.getElementById('display');
     currentDisplay.value = "";
+    number = '';
 }
 
 clearButton.addEventListener('click',clearDisplay);
+
+for(i=0; i<numberButtons.length;i++){  //add event listeners to all number buttons
+    numberButtons[i].addEventListener('click',populateDisplay)
+}
