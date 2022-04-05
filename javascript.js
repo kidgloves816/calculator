@@ -43,29 +43,56 @@ const multiply = function(...args){
     }
     return +sum;
 }
+
+const clearDisplay = () => {
+    currentDisplay.value = "";
+}
+
+const clearCurrentNumber =  () => number = '';
+
 const operate = () => {
     b = +number;
     if (operator === 'add'){
         currentDisplay.value = add(a,b);
+        a = +currentDisplay.value;
+        clearCurrentNumber();
         return add(a,b);
     }
     else if (operator === 'subtract'){
         currentDisplay.value = subtract(a,b);
+        a = +currentDisplay.value;
+        clearCurrentNumber();
         return subtract(a,b);
     }
     else if (operator === 'multiply'){
+        currentDisplay.value = multiply(a,b);
+        a = +currentDisplay.value;
+        clearCurrentNumber();
         return multiply(a,b);
     }
     else if (operator === 'divide'){
+        currentDisplay.value = divide(a,b);
+        a = +currentDisplay.value;
+        clearCurrentNumber();
         return divide(a,b);
     }
 }
 
 const addFromButton = function(){
-    a = +number;
-    currentDisplay.value = '';
-    number = currentDisplay.value;
-    operator = 'add';
+    if (typeof a === 'undefined'){
+        a = +number;
+        currentDisplay.value = '';
+        number = currentDisplay.value;
+        operator = 'add';
+    }
+
+    else {
+        b = +currentDisplay.value;
+        currentDisplay.value = add(a,b);
+        a = +currentDisplay.value;
+        clearCurrentNumber();
+        return add(a,b);
+    }
 }
 
 const subtractFromButton = function(){
@@ -75,20 +102,29 @@ const subtractFromButton = function(){
     operator = 'subtract';
 }
 
+const multiplyFromButton = function(){
+    a = +number;
+    currentDisplay.value = '';
+    number = currentDisplay.value;
+    operator = 'multiply';
+}
+
 function populateDisplay(e){
     number += this.textContent;
     currentDisplay.value = number;
 }
 
-const clearDisplay = () => {
-    currentDisplay.value = "";
-    number = '';
-}
 
-clearButton.addEventListener('click',clearDisplay);
+clearButton.addEventListener('click',() => {
+    clearDisplay();
+    clearCurrentNumber();
+});
 addButton.addEventListener('click',addFromButton);
 subtractButton.addEventListener('click',subtractFromButton);
+multiplyButton.addEventListener('click',multiplyFromButton);
+
 equalButton.addEventListener('click',operate);
+
 
 for(i=0; i<numberButtons.length;i++){  //add event listeners to all number buttons
     numberButtons[i].addEventListener('click',populateDisplay)
