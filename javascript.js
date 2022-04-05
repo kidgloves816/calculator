@@ -1,8 +1,12 @@
 const clearButton = document.querySelector('button.clear');
-const addButton = document.querySelector('button.add');
 const numberButtons = document.querySelectorAll('div.numbers div button');
 const currentDisplay = document.getElementById('display');
-const equalButton = document.querySelector('button.equals')
+const addButton = document.querySelector('button.add');
+const subtractButton = document.querySelector('button.subtract');
+const multiplyButton = document.querySelector('button.multiply');
+const divideButton = document.querySelector('button.divide');
+const equalButton = document.querySelector('button.equals');
+
 let number = '';
 let operator = '';
 let a;
@@ -16,12 +20,6 @@ const add = function(...args) {
     return +sum;
 };
 
-const addFromButton = function(){
-    a = +number;
-    currentDisplay.value = '';
-    number = currentDisplay.value;
-    operator = 'add';
-}
 
 const subtract = function(...args) {
     let sum = arguments[0];
@@ -52,6 +50,7 @@ const operate = () => {
         return add(a,b);
     }
     else if (operator === 'subtract'){
+        currentDisplay.value = subtract(a,b);
         return subtract(a,b);
     }
     else if (operator === 'multiply'){
@@ -60,6 +59,20 @@ const operate = () => {
     else if (operator === 'divide'){
         return divide(a,b);
     }
+}
+
+const addFromButton = function(){
+    a = +number;
+    currentDisplay.value = '';
+    number = currentDisplay.value;
+    operator = 'add';
+}
+
+const subtractFromButton = function(){
+    a = +number;
+    currentDisplay.value = '';
+    number = currentDisplay.value;
+    operator = 'subtract';
 }
 
 function populateDisplay(e){
@@ -74,7 +87,8 @@ const clearDisplay = () => {
 
 clearButton.addEventListener('click',clearDisplay);
 addButton.addEventListener('click',addFromButton);
-equalButton.addEventListener('click',operate)
+subtractButton.addEventListener('click',subtractFromButton);
+equalButton.addEventListener('click',operate);
 
 for(i=0; i<numberButtons.length;i++){  //add event listeners to all number buttons
     numberButtons[i].addEventListener('click',populateDisplay)
