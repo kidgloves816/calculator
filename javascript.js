@@ -7,10 +7,12 @@ const multiplyButton = document.querySelector('button.multiply');
 const divideButton = document.querySelector('button.divide');
 const equalButton = document.querySelector('button.equals');
 
-let number = '';
+let displayedNumber = '';
+let storedNumber;
 let operator = '';
 let a;
 let b;
+let previousSolution;
 
 const add = function(...args) {
     let sum = 0;
@@ -48,82 +50,132 @@ const clearDisplay = () => {
     currentDisplay.value = "";
 }
 
-const clearCurrentNumber =  () => number = '';
+const clearCurrentNumber =  () => {
+    displayedNumber = '';
+}
+
+const clearStoredNumbers = () => {
+    a = undefined;
+    b = undefined;
+}
+
+const clearOperator = () => {
+    operator = '';
+}
+
+const clearPreviousSolution = () => {
+    previousSolution = undefined;
+}
 
 const operate = () => {
-    b = +number;
+    b = +displayedNumber;
     if (operator === 'add'){
+        previousSolution = add(a,b);
         currentDisplay.value = add(a,b);
-        a = +currentDisplay.value;
         clearCurrentNumber();
+        clearOperator();
         return add(a,b);
     }
     else if (operator === 'subtract'){
+        previousSolution = subtract(a,b);
         currentDisplay.value = subtract(a,b);
-        a = +currentDisplay.value;
         clearCurrentNumber();
+        clearOperator();
         return subtract(a,b);
     }
     else if (operator === 'multiply'){
+        previousSolution = multiply(a,b);
         currentDisplay.value = multiply(a,b);
-        a = +currentDisplay.value;
         clearCurrentNumber();
+        clearOperator();
         return multiply(a,b);
     }
     else if (operator === 'divide'){
-        currentDisplay.value = divide(a,b);
-        a = +currentDisplay.value;
-        clearCurrentNumber();
-        return divide(a,b);
+        if (b !== 0){
+            previousSolution = divide(a,b);
+            currentDisplay.value = divide(a,b);
+            clearCurrentNumber();
+            clearOperator();
+            return divide(a,b);
+        }
+
+        else {
+            currentDisplay.value = 'You can\'t do that';
+            clearCurrentNumber();
+            clearOperator();
+            return undefined;
+        }
     }
 }
 
 const addFromButton = function(){
     if (typeof a === 'undefined'){
-        a = +number;
-        currentDisplay.value = '';
-        number = currentDisplay.value;
         operator = 'add';
+        a = +displayedNumber;
+        currentDisplay.value = '';
+        clearCurrentNumber();
     }
 
     else {
-        b = +currentDisplay.value;
-        currentDisplay.value = add(a,b);
+        currentDisplay.value=`${operate()}`;
         a = +currentDisplay.value;
-        clearCurrentNumber();
-        return add(a,b);
+        b = undefined;
+        operator = 'add';
     }
 }
 
 const subtractFromButton = function(){
-    a = +number;
-    currentDisplay.value = '';
-    number = currentDisplay.value;
-    operator = 'subtract';
+    if (typeof a === 'undefined'){
+        operator = 'subtract';
+        a = +displayedNumber;
+        currentDisplay.value = '';
+        clearCurrentNumber();
+    }
+
+    else {
+        currentDisplay.value=`${operate()}`;
+        a = +currentDisplay.value;
+        b = undefined;
+        operator = 'subtract';
+    }
 }
 
 const multiplyFromButton = function(){
-    a = +number;
-    currentDisplay.value = '';
-    number = currentDisplay.value;
     operator = 'multiply';
+    a = +displayedNumber;
+    currentDisplay.value = '';
+    displayedNumber = currentDisplay.value;
+}
+
+const divideFromButton = function(){
+    operator = 'divide';
+    a = +displayedNumber;
+    currentDisplay.value = '';
+    displayedNumber = currentDisplay.value;
 }
 
 function populateDisplay(e){
-    number += this.textContent;
-    currentDisplay.value = number;
+    displayedNumber += this.textContent;
+    currentDisplay.value = displayedNumber;
 }
 
 
 clearButton.addEventListener('click',() => {
     clearDisplay();
     clearCurrentNumber();
+    clearStoredNumbers();
+    clearPreviousSolution();
 });
+
 addButton.addEventListener('click',addFromButton);
 subtractButton.addEventListener('click',subtractFromButton);
 multiplyButton.addEventListener('click',multiplyFromButton);
+divideButton.addEventListener('click',divideFromButton);
 
-equalButton.addEventListener('click',operate);
+equalButton.addEventListener('click',() => {
+    operate();
+    clearStoredNumbers();
+});
 
 
 for(i=0; i<numberButtons.length;i++){  //add event listeners to all number buttons
