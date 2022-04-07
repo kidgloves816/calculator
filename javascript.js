@@ -47,7 +47,7 @@ const multiply = function(...args){
 }
 
 const clearDisplay = () => {
-    currentDisplay.value = "";
+    currentDisplay.value = '';
 }
 
 const clearCurrentNumber =  () => {
@@ -112,7 +112,7 @@ const addFromButton = function(){
     if (typeof a === 'undefined'){
         operator = 'add';
         a = +displayedNumber;
-        currentDisplay.value = '';
+        clearDisplay();
         clearCurrentNumber();
     }
 
@@ -128,7 +128,7 @@ const subtractFromButton = function(){
     if (typeof a === 'undefined'){
         operator = 'subtract';
         a = +displayedNumber;
-        currentDisplay.value = '';
+        clearDisplay();
         clearCurrentNumber();
     }
 
@@ -141,17 +141,33 @@ const subtractFromButton = function(){
 }
 
 const multiplyFromButton = function(){
-    operator = 'multiply';
-    a = +displayedNumber;
-    currentDisplay.value = '';
-    displayedNumber = currentDisplay.value;
+    if (typeof a === 'undefined'){
+        operator = 'multiply';
+        a = +displayedNumber;
+        clearDisplay();
+        clearCurrentNumber();
+    }
+    else {
+        currentDisplay.value=`${operate()}`;
+        a = +currentDisplay.value;
+        b = undefined;
+        operator = 'multiply';
+    }
 }
 
 const divideFromButton = function(){
-    operator = 'divide';
-    a = +displayedNumber;
-    currentDisplay.value = '';
-    displayedNumber = currentDisplay.value;
+    if (typeof a === 'undefined'){
+        operator = 'divide';
+        a = +displayedNumber;
+        clearDisplay();
+        clearCurrentNumber();
+    }
+    else {
+        currentDisplay.value=`${operate()}`;
+        a = +currentDisplay.value;
+        b = undefined;
+        operator = 'divide';
+    }
 }
 
 function populateDisplay(e){
